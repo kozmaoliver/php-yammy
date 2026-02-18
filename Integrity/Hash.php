@@ -33,8 +33,6 @@ class Hash
 
             $path = $dir . DIRECTORY_SEPARATOR . $item;
 
-            var_dump($path);
-
             if (is_link($path)) {
                 continue;
             } elseif (is_dir($path)) {

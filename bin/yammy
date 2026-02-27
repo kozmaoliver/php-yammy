@@ -1,0 +1,56 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Yammy - Secure PHP Package Manager
+ * 
+ * Usage: yammy <command> [options]
+ * 
+ * This is the global executable that delegates to yammy.php
+ */
+
+$projectYammy = getcwd() . '/yammy.php';
+$globalYammy = __DIR__ . '/../yammy.php';
+
+if (file_exists($projectYammy)) {
+    $yammyPath = $projectYammy;
+    $workingDir = getcwd();
+} elseif (file_exists($globalYammy)) {
+    $yammyPath = $globalYammy;
+    $workingDir = dirname($globalYammy);
+} else {
+    fwrite(STDERR, "Error: Cannot find yammy.php\n");
+    fwrite(STDERR, "Make sure you're in a yammy project directory or yammy is properly installed.\n");
+    exit(1);
+}
+
+chdir($workingDir);
+
+if (!extension_loaded('yaml')) {
+    fwrite(STDERR, "Error: YAML extension is required but not installed\n");
+    fwrite(STDERR, "Install with: sudo apt-get install php-yaml (or pecl install yaml)\n");
+    exit(1);
+}
+
+if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+    fwrite(STDERR, "Error: Yammy requires PHP 7.4 or higher (current: " . PHP_VERSION . ")\n");
+    exit(1);
+}
+
+if (php_sapi_name() === 'cli' && !in_array('--quiet', $argv) && !in_array('-q', $argv)) {
+    echo "\033[36m";
+    echo "  __   __                              \n";
+    echo "  \ \ / /_ _ _ __ ___  _ __ ___  _   _ \n";
+    echo "   \ V / _` | '_ ` _ \| '_ ` _ \| | | |\n";
+    echo "    | | (_| | | | | | | | | | | | |_| |\n";
+    echo "    |_|\__,_|_| |_| |_|_| |_| |_|\__, |\n";
+    echo "                                 |___/ \n";
+    echo "\033[0m";
+    echo "  Secure PHP Package Manager version ";
+    echo "\033[33m";
+    echo "1.0.0"; //TODO: include from config
+    echo "\n";
+    echo "\033[0m";
+    echo "  -----------------------------------\n\n";
+}
+
+require $yammyPath;

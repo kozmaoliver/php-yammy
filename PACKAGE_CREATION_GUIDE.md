@@ -18,14 +18,12 @@ your-package/
 
 ```yaml
 name: vendor/package      # REQUIRED - Package name
-version: 1.0.0           # REQUIRED - Semantic version
 ```
 
 ### Recommended Configuration
 
 ```yaml
 name: vendor/package      # Package identifier (vendor/name)
-version: 1.0.0           # Semantic version (major.minor.patch)
 description: Short description of what your package does
 
 # Optional metadata
@@ -46,44 +44,6 @@ autoload:
 
 ---
 
-## Versioning Strategy: Git Tags vs yammy.yaml
-
-### Recommended Approach: **Both Should Match**
-
-```yaml
-# yammy.yaml
-version: 1.0.0
-```
-
-```bash
-# Git tag
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-### Why Both?
-
-| Aspect | yammy.yaml version | Git tag |
-|--------|-------------------|---------|
-| **Purpose** | Package identity & dependencies | Source code reference |
-| **Read by** | Yammy at install time | Developers & Git |
-| **Required** | ✅ Yes (Yammy validation) | ⚠️ Recommended but optional |
-| **Format** | `1.0.0` (no 'v' prefix) | `v1.0.0` (with 'v' prefix) |
-
-### How Yammy Uses Versions
-
-1. **User specifies version in their yammy.yaml:**
-   ```yaml
-   require:
-     vendor/package: 1.2.3
-   ```
-
-2. **Yammy clones the repo** and reads the package's `yammy.yaml`
-
-3**This prevents version spoofing attacks!**
-
----
-
 ## Versioning Best Practices
 
 ### Semantic Versioning (SemVer)
@@ -96,35 +56,6 @@ Format: `MAJOR.MINOR.PATCH`
 1.1.0 → New feature (backwards compatible)
 2.0.0 → Breaking change (not backwards compatible)
 ```
-
-### Pre-release Versions
-
-```yaml
-version: 1.0.0-alpha
-version: 1.0.0-beta
-version: 1.0.0-rc1
-```
-
-### When to Use Git Tags
-
-**Option 1: Simple (Current Yammy)**
-```bash
-# Yammy clones from main branch
-# Git tags optional (for developer reference only)
-git tag v1.0.0
-```
-
-**Option 2: Tag-based (Future Feature)**
-```bash
-# Future: Yammy could clone specific tag
-git tag v1.0.0
-git push origin v1.0.0
-# User specifies: vendor/package: 1.0.0
-# Yammy clones: git clone --branch v1.0.0
-```
-
-**Current behavior:** Yammy clones the default branch (main/master), not specific tags.
-
 ---
 
 ## Complete Example: Creating yammy/hello

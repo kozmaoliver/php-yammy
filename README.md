@@ -361,7 +361,6 @@ yammy clean-quarantine
 ```yaml
 # yammy.yaml
 name: my-blog
-version: 1.0.0
 require:
   yammy/hello: 1.1.0
 packages:
@@ -382,7 +381,6 @@ All packages passed integrity check
 
 ```yaml
 name: ecommerce-platform
-version: 2.1.0
 require:
   payment/stripe: 3.0.0
   auth/oauth: 2.5.1
@@ -406,7 +404,6 @@ packages:
 
 ```yaml
 name: enterprise-app
-version: 1.0.0
 require:
   company/internal-lib: 2.0.0
 
@@ -428,7 +425,6 @@ yammy install
 
 We welcome contributions! Please see:
 - [SECURITY.md](SECURITY.md) - Security model and reporting
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines (TODO)
 
 ### Reporting Security Issues
 

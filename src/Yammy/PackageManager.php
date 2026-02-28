@@ -3,6 +3,8 @@
 namespace Yammy;
 
 use Exception;
+use Yammy\Security\Security;
+use Yammy\DTO\ProjectManifestDTO;
 
 class PackageManager
 {
@@ -165,11 +167,11 @@ class PackageManager
         return $this->repository->exists($packageDir) && file_exists($packageDir . '/yammy.yaml');
     }
 
-    public function installPackages(array $projectManifest): void
+    public function installPackages(ProjectManifestDTO $projectManifest): void
     {
-        if (isset($projectManifest['require'])) {
+        if (isset($projectManifest->require)) {
             echo "Starting package installation...\n\n";
-            foreach ($projectManifest['require'] as $pkg => $ver) {
+            foreach ($projectManifest->require as $pkg => $ver) {
                 if (!$this->isPackageInstalled($pkg, $ver)) {
                     $this->installPackage($pkg, $ver);
                 } else {
@@ -219,13 +221,18 @@ class PackageManager
         }
         
         $hash = $this->hasher->generatePackageDataHash($dir);
+
+        //TODO: make a cli IO service for inputs and outputs from the console
+        echo "\033[33m";
+        echo "Hash: ";
+        echo "\033[0m";
         echo "$hash\n";
     }
 
-    public function checkIntegrity(array $projectManifest): void
+    public function checkIntegrity(ProjectManifestDTO $projectManifest): void
     {
         echo "Checking package integrity...\n\n";
-        $packages = $projectManifest['packages'] ?? [];
+        $packages = $projectManifest->packages ?? [];
         $allOk = true;
         
         foreach ($packages as $packageName => $packageData) {

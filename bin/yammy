@@ -36,7 +36,7 @@ if (version_compare(PHP_VERSION, '7.4.0', '<')) {
     exit(1);
 }
 
-if (php_sapi_name() === 'cli' && !in_array('--quiet', $argv) && !in_array('-q', $argv)) {
+if (php_sapi_name() === 'cli') {
     echo "\033[36m";
     echo "  __   __                              \n";
     echo "  \ \ / /_ _ _ __ ___  _ __ ___  _   _ \n";

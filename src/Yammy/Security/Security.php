@@ -1,10 +1,16 @@
 <?php
 
-namespace Yammy;
+namespace Yammy\Security;
+
+use Yammy\Security\DTO\SecurityLogDTO;
 
 class Security
 {
     private string $quarantinePath;
+
+    /**
+     * @var SecurityLogDTO[]
+     */
     private array $securityLog = [];
     private string $logFile;
 
@@ -31,13 +37,7 @@ class Security
 
     public function logEvent(string $type, string $package, string $version, string $details): void
     {
-        $this->securityLog[] = [
-            'timestamp' => date('Y-m-d H:i:s'),
-            'type' => $type,
-            'package' => $package,
-            'version' => $version,
-            'details' => $details
-        ];
+        $this->securityLog[] = new SecurityLogDTO(new \DateTimeImmutable(), $type, $package, $version, $details);
     }
 
     public function saveLog(): void
@@ -47,14 +47,15 @@ class Security
         }
         
         $logContent = '';
+
         foreach ($this->securityLog as $event) {
             $logContent .= sprintf(
                 "[%s] %s - %s@%s: %s\n",
-                $event['timestamp'],
-                $event['type'],
-                $event['package'],
-                $event['version'],
-                $event['details']
+                $event->timestamp->format("Y-m-d H:i:s"),
+                $event->type,
+                $event->package,
+                $event->version,
+                $event->details,
             );
         }
         

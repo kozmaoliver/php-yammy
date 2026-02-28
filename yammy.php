@@ -9,7 +9,6 @@
 use Yammy\CLI;
 use Yammy\PackageManager;
 
-// Autoloader
 spl_autoload_register(function ($class) {
     if (strpos($class, 'Yammy\\') === 0) {
         $classPath = __DIR__ . '/src/' . str_replace('\\', '/', $class) . '.php';
@@ -28,7 +27,7 @@ try {
     $repoPath = __DIR__ . '/yammies';
     $lockFile = __DIR__ . '/yammy.lock';
     $securityLogFile = __DIR__ . '/yammy-security.log';
-    $projectPackages = $projectManifest['packages'] ?? [];
+    $projectPackages = $projectManifest->packages ?? [];
     
     $packageManager = new PackageManager(
         $repoPath,

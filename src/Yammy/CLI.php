@@ -3,13 +3,14 @@
 namespace Yammy;
 
 use Exception;
+use Yammy\DTO\ProjectManifestDTO;
 
 class CLI
 {
     private PackageManager $packageManager;
-    private array $projectManifest;
+    private ProjectManifestDTO $projectManifest;
 
-    public function __construct(PackageManager $packageManager, array $projectManifest)
+    public function __construct(PackageManager $packageManager, ProjectManifestDTO $projectManifest)
     {
         $this->packageManager = $packageManager;
         $this->projectManifest = $projectManifest;
@@ -87,7 +88,7 @@ HELP;
         }
     }
 
-    public static function loadProjectManifest(string $manifestFile): array
+    public static function loadProjectManifest(string $manifestFile): ProjectManifestDTO
     {
         if (!file_exists($manifestFile)) {
             throw new Exception("yammy.yaml not found in current directory");
@@ -97,7 +98,7 @@ HELP;
         if ($projectManifest === false) {
             throw new Exception("Failed to parse yammy.yaml");
         }
-        
-        return $projectManifest;
+
+        return new ProjectManifestDTO(...$projectManifest);
     }
 }

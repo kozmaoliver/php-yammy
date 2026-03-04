@@ -2,6 +2,8 @@
 
 **Yammy** is a security-first PHP package manager that prioritizes integrity verification and safe package installation. Unlike traditional package managers, Yammy uses a quarantine system and cryptographic hash verification to ensure packages are never executed before being verified as safe.
 
+> ⚠️ This is a work-in-progress hobby project, your production code should not rely on it!
+
 ## Quick Start
 
 ### Installation
